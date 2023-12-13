@@ -7,11 +7,7 @@ import imutils
 #emotionName = 'Sorpresa'
 emotionName = 'Tristeza'
 
-<<<<<<< HEAD
 dataPath = 'MetodoEigenFaces_EmotionDetector/Emocion'
-=======
-dataPath = 'C:/Users/Deyanira LS/Documents/Asistant/MetodoEigenFaces_EmotionDetector/Emocion' #Cambia a la ruta donde hayas almacenado Data
->>>>>>> 8712dad4832f45960c75a8dc4ae808722a58b5fa
 emotionsPath = dataPath + '/' + emotionName
 
 if not os.path.exists(emotionsPath):
@@ -43,11 +39,7 @@ while True:
 	cv2.imshow('frame',frame)
 
 	k =  cv2.waitKey(1)
-<<<<<<< HEAD
-	if k == 27 or count >= 25:
-=======
 	if k == 27 or count >= 200:
->>>>>>> 8712dad4832f45960c75a8dc4ae808722a58b5fa
 		break
 
 cap.release()
