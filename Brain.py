@@ -20,6 +20,7 @@ sabina_photo=ImageTk.PhotoImage(Image.open("sabinasabio.jpg"))
 window_photo=Label(main_window,image=sabina_photo)
 window_photo.pack(pady=5)
 
+
 listener = sr.Recognizer()
 nltk.download('punkt')
 pygame.init()
