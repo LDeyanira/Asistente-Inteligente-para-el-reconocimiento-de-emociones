@@ -13,7 +13,7 @@ if method == 'LBPH':
 emotion_recognizer.read('modelo'+method+'.xml')
 # --------------------------------------------------------------------------------
 
-dataPath = 'C:/Users/Deyanira LS/Documents/Asistant/MetodoEigenFaces_EmotionDetector/Emocion'
+dataPath = 'MetodoEigenFaces_EmotionDetector/Emocion'
 imagePaths = os.listdir(dataPath)
 print('imagePaths=', imagePaths)
 
