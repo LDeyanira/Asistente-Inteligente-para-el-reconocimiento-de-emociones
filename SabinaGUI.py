@@ -42,7 +42,7 @@ def listen():
     try:
         with sr.Microphone() as source:
             
-            talk("Te escucho")
+            talk ("Te escucho")
             pc = listener.listen(source)
             rec = listener.recognize_google(pc)
             rec = rec.lower()

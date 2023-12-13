@@ -65,7 +65,7 @@ def listen():
             audio = listener.listen(source)
             #user_input = listener.recognize_google(audio).lower()
             try:
-                user_input = listener.recognize_google(audio)
+                user_input = listener.recognize_google(audio- es)
                 print("Has dicho:", user_input)  # Imprime lo que has dicho
             except sr.UnknownValueError:
                 pass
@@ -98,13 +98,13 @@ def Brain():
                 talk("No te entendí, dime de nuevo.")
                 continue
 
-            if "regresa" in user_input:
+            if "termina" in user_input:
                 talk("Desactivando cerebro, regresando a modo normal")
                 sound2.play()
                 time.sleep(3)
                 sound_playing = False  # Desactiva la bandera cuando se reproduce el sonido
-                main_window.iconify()  # Minimiza la ventana principal
-                subprocess.Popen(["python", "SabinaGUI.py"]) 
+                #main_window.iconify()  # Minimiza la ventana principal
+                #subprocess.Popen(["python", "SabinaGUI.py"]) 
                 
                 break
 
@@ -120,7 +120,7 @@ def Brain():
                          #time.sleep(1)
                          sound.play()
                          break
-                    elif user_input.lower()in pattern and "canta"in pattern:
+                    elif user_input.lower()in pattern and "e" in pattern:
                         talk(responses[0])
                         sound4.play()
                         time.sleep(10)
@@ -133,6 +133,8 @@ def Brain():
         except KeyboardInterrupt:
             talk("Un error inesperado a ocurrido, Desactivando mis hemisferios")
             break
-button_listen=Button(main_window,text="Hablar",fg="white",bg="gray",font=("Arial",10,"bold"),width=20,height=3,command=Brain)
-button_listen.pack(pady=10)
-main_window.mainloop()
+#button_listen=Button(main_window,text="Hablar",fg="white",bg="gray",font=("Arial",10,"bold"),width=20,height=3,command=Brain)
+#button_listen.pack(pady=10)
+#main_window.mainloop()
+if __name__ == '__main__':
+    Brain()
