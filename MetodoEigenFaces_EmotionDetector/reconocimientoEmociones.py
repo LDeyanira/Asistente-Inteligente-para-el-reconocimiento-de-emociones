@@ -1,6 +1,15 @@
 import cv2
 import os
 import subprocess
+import pyttsx3
+#configuracion de voz
+engine = pyttsx3.init()
+
+voices = engine.getProperty('voices')
+engine.setProperty('voice', voices[1].id)
+engine. setProperty('rate', 178)
+engine.setProperty('volume', 0.7)
+
 # ----------- Métodos usados para el entrenamiento y lectura del modelo ----------
 method = 'LBPH'
 if method == 'EigenFaces':
@@ -20,6 +29,7 @@ print('imagePaths=', imagePaths)
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 faceClassif = cv2.CascadeClassifier(cv2.data.haarcascades+'haarcascade_frontalface_default.xml')
 
+
 while True:
     ret, frame = cap.read()
     if ret == False: break
@@ -33,9 +43,14 @@ while True:
         rostro = cv2.resize(rostro, (150, 150), interpolation=cv2.INTER_CUBIC)
         result = emotion_recognizer.predict(rostro)
         
-
+        detected_emotion = imagePaths[result[0]]
+        #cv2.putText(frame, '{}'.format(detected_emotion), (x, y-25), 2, 1.1, (0, 255, 0), 1, cv2.LINE_AA)
         cv2.putText(frame, '{}'.format(imagePaths[result[0]]), (x, y-25), 2, 1.1, (0, 255, 0), 1, cv2.LINE_AA)
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        # Síntesis de voz
+        #engine.say("Tu emoción es {}".format(detected_emotion))
+        #engine.runAndWait()
+        
 
     cv2.imshow('Ejecutando Analisis', frame)
     k = cv2.waitKey(1)
