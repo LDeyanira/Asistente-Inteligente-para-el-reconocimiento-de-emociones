@@ -66,7 +66,7 @@ def listen():
             audio = listener.listen(source)
             #user_input = listener.recognize_google(audio).lower()
             try:
-                user_input = listener.recognize_google(audio- es)
+                user_input = listener.recognize_google(audio- "es")
                 print("Has dicho:", user_input)  # Imprime lo que has dicho
             except sr.UnknownValueError:
                 pass
