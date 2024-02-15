@@ -1,0 +1,31 @@
+{
+  "intents": [
+      {
+          "tag": "Descripcion de funciones",
+          "patterns": ["ayuda", "ayúdame", "no entiendo","no comprendo","cómo funcionas"],
+          "responses": ["Dime Analizame, para saber tu estado de ánimo", "Si quieres saber sobre un tema relacionado a las emociones, di busca", "Soy tu asistente Inteligente Emocional"]  
+      },
+      {
+        "tag": "Escaneo",
+        "patterns": ["analízame", "hazme un análisis", "realiza un análisis", "necesito un análisis", "analízame ahora"],
+        "responses": ["por supuesto, iniciando el analisis", "entendido, comenzando el analisis", "Iniciando el analisis", "enseguida, por favor espera un momento"]
+    },
+    
+    {
+      "tag": "Busqueda de informacion",
+      "patterns": ["busca", "investiga", "buscame", "quiero saber sobre", "muéstrame información de"],
+      "responses": ["claro!, permíteme investigar", "entendido, voy a buscar informacion!", "investigando, ¿hay algo específico que te interese?", "Buscando información, ¿qué tema te gustaría explorar?"]
+  },
+      {
+          "tag": "Saludo",
+          "patterns": ["hola", "buenas", "holi", "qué tal", "qué hay", "buen día"],
+          "responses": ["hola", "como estas", "que gusto verte", "buen dia, en que puedo ayudarte"]
+      },
+     
+      {
+          "tag": "Despedida",
+          "patterns": ["termina", "adiós", "hasta pronto", "nos vemos", "hasta luego"],
+          "responses": ["terminando sesion", "nos vemos", "cuidate", "adios, hasta la proxima"]
+      }
+  ]
+}
