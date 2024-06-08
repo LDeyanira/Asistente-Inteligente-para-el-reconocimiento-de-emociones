@@ -2,7 +2,6 @@ import random
 import json
 import pickle
 import numpy as np
-import datetime#esta actualmente no se usa 
 import nltk
 from nltk.stem import WordNetLemmatizer
 import speech_recognition as sr
@@ -13,7 +12,8 @@ from keras.models import load_model
 import wikipedia
 import subprocess
 import sys
-from nltk.chat.util import Chat, reflections
+import webbrowser
+import datetime
 
 lemmatizer = WordNetLemmatizer()
 
@@ -66,17 +66,13 @@ def predict_class(sentence, threshold=0.5):
 
 def get_response(tag, intents_json):
     list_of_intents = intents_json['intents']
-    result = "hora"
+    
     for i in list_of_intents:
         if i["tag"] == tag:
             result = random.choice(i['responses'])
-            if tag == "hora":
-                hora = datetime.datetime.now().strftime('%I:%M %p')
-                result += " " + hora
             break
-
     if not result:
-        result = "No entendí bien. ¿Puedes reformular tu pregunta?"
+        result = "Disculpa actualmente no puedo procesar tu peticion"
 
     return result
 
@@ -104,16 +100,13 @@ def listen():
 #abrir otro proceso de python
 def abrir_script():
     try:
-        subprocess.run(["python", "MetodoEigenFaces_EmotionDetector/reconocimientoEmocion.py"])
+        subprocess.run(["python", "reconocimientoEmocion.py"])
     except FileNotFoundError:
         print("El archivo no fue encontrado.")
     except Exception as e:
         print("Error:", e)
     
-pares = [
-    ["analízame", ["claro"]]
-]
-chatbot = Chat(pares, reflections)
+
 
 # Lógica principal del chatbot
 def Brain():
@@ -132,44 +125,14 @@ def Brain():
                         if user_input.lower() in pattern.lower():
                             response = random.choice(responses)
                             intent_tag = intent["tag"]
-                            talk(response, intent_tag)
-                            found_response = True
-                        if intent_tag == "Busqueda de informacion":
-                            search_in = user_input.lower().replace(pattern.lower(), '').strip()
-                            search_result = wikipedia.summary(search_in, sentences=2)
-                            talk(search_result) 
-                            found_response = True
-
-
+                            talk(response, intent_tag)                    
                         if intent_tag == "Despedida":
                               sound3.play()
                               sys.exit()
-                              
-                    for pattern, responses in pares:
-                        if user_input.lower() in pattern and "analízame"  in pattern:
-                         talk(responses[0])  # Utiliza responses[0] para obtener la primera respuesta
-                         #time.sleep(1)
-                         sound3.play()
-                         abrir_script()
-                         break  # 
+                        if intent_tag == "escaneo":
+                            abrir_script()
+                            
                         break
-
-
-                if not found_response:
-                    ints = predict_class(user_input)
-                    res = get_response(ints, intents)
-                    print(res)
-                    talk("No puedo entender lo que dices, repitelo de nuevo")
-                
-                    # Lógica específica para reproducir música si la intención es "reproducir musica"
-                    #if intent_tag == "saludo":
-                       # saludo_user = user_input.lower().replace(intent['patterns'][0], '').strip()
-                        
-
-                # if intent_tag == "hora":
-                   # hora = datetime.datetime.now().strftime('%I:%M %p')
-                    #talk(f"{hora}")
-                
 
         except KeyboardInterrupt:
             talk("Ups, lo lamento, algo salio mal en el procesamiento, intenta de nuevo mas tarde")

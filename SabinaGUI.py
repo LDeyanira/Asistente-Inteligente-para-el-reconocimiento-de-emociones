@@ -81,7 +81,7 @@ def run_Sabina():
          
         elif 'analisa me' in  rec:
          talk('Activando detector de emociones')
-         subprocess.run(["python", r'C:\Users\Deyanira LS\Documents\Asistant\MetodoEigenFaces_EmotionDetector\reconocimientoEmociones.py'])
+         subprocess.run(["python", 'reconocimientoEmociones.py'])
         elif 'termina' in rec:
             flag=0
             talk("Hasta luego")
