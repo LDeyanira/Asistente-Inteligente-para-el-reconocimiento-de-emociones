@@ -1,8 +1,17 @@
 import streamlit as st
 from gtts import gTTS
 import io
+import tempfile
 from chat_base import predict_class, get_response, intents
-# Funciones
+
+# Configuración de la página y logo en el titulo del chatbot
+st.set_page_config(
+    page_title="UPIIH BOT",
+    page_icon="https://cdn.icon-icons.com/icons2/3399/PNG/512/bot_icon_214984.png",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
 #funcion  para hablar 
 def speak(text):
     tts = gTTS(text=text, lang='es')
@@ -23,7 +32,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 if st.session_state.first_message:
-    initial_message = "Hola,dime que necesitas"
+    initial_message = "Hola,selecciona la planeación que necesites."
     with st.chat_message("Bot"):
         st.markdown(initial_message)
     st.session_state.messages.append({"role": "Bot", "content": initial_message})
