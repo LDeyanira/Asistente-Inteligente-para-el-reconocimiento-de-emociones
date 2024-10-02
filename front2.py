@@ -3,6 +3,8 @@ from gtts import gTTS
 import os
 import io
 import tempfile
+import nltk
+nltk.download('punkt')
 from chat_base import predict_class, get_response, intents
 import speech_recognition as sr
 #funciones
