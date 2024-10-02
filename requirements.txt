@@ -6,6 +6,5 @@ requests
 python-docx
 tensorflow
 nltk
-gtts
 opencv-python
 speechrecognition

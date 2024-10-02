@@ -1,6 +1,7 @@
 import streamlit as st
 from gtts import gTTS
 import os
+import io
 import tempfile
 from chat_base import predict_class, get_response, intents
 import speech_recognition as sr
