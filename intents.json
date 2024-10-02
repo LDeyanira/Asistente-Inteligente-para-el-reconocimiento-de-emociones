@@ -2,7 +2,7 @@
   "intents": [
     {
       "tag": "saludo",
-      "patterns": ["hola", "qué tal", "hola", "saludos"],
+      "patterns": ["hola", "qué tal", "hola", "saludos","ola"],
       "responses": ["Hola!", "Hola!, que necesitas?", "Hola!"]
     },
     {
