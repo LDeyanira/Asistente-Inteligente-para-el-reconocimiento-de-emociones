@@ -5,7 +5,7 @@ import os
 import tempfile
 from chat_base import predict_class, get_response, intents
 import speech_recognition as sr
-
+#funciones
 def speak(text):
     temp_audio_file = None
     try:
