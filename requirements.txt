@@ -3,3 +3,4 @@ gtts
 pygame
 opencv-python
 pywhatkit
+Keras
