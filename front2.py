@@ -1,19 +1,21 @@
 import streamlit as st
 from gtts import gTTS
-import os
 import io
-import tempfile
 import nltk
-nltk.download('punkt')
-from chat_base import predict_class, get_response, intents
 import speech_recognition as sr
-#funciones
+from chat_base import predict_class, get_response, intents
+
+# Descarga el tokenizador de NLTK si no está disponible
+nltk.download('punkt', quiet=True)
+
+# Funciones
 def speak(text):
     tts = gTTS(text=text, lang='es')
     audio_file = io.BytesIO()
     tts.write_to_fp(audio_file)
     audio_file.seek(0)
     st.audio(audio_file, format='audio/mp3')
+
 def listen():
     r = sr.Recognizer()
     with sr.Microphone() as source:
@@ -23,9 +25,11 @@ def listen():
             text = r.recognize_google(audio, language="es-ES")
             return text
         except sr.UnknownValueError:
-            return "No entendí lo que dijiste"
+            st.error("No entendí lo que dijiste")
+            return None
         except sr.RequestError:
-            return "Error al conectarse al servicio de reconocimiento de voz"
+            st.error("Error al conectarse al servicio de reconocimiento de voz")
+            return None
 
 # Interfaz de Streamlit
 st.title("AI")
@@ -46,7 +50,7 @@ for message in st.session_state.messages:
 
 # Primer mensaje del bot
 if st.session_state.first_message:
-    initial_message = "Te doy la bienvenida, estoy aqui para ayudarte."
+    initial_message = "Te doy la bienvenida, estoy aquí para ayudarte."
     with st.chat_message("Bot"):
         st.markdown(initial_message)
     st.session_state.messages.append({"role": "Bot", "content": initial_message})
@@ -71,7 +75,7 @@ if st.button("Hablar"):
         speak(res)
 
 # Opción para ingresar texto manualmente si no se usa la voz
-if prompt := st.chat_input("Estoy para ti, que necesitas?"):
+if prompt := st.chat_input("Estoy para ti, ¿qué necesitas?"):
     with st.chat_message("user"):
         st.markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
