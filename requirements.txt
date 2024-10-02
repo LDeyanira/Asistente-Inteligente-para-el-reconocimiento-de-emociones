@@ -1,7 +1,12 @@
 streamlit
 gtts
 pygame
+streamlit==1.38.0
+numpy
+requests
+python-docx
+tensorflow
+nltk
+gtts
 opencv-python
 pywhatkit
-tensorflow==2.11.0
-keras==2.11.0
