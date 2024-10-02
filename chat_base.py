@@ -72,7 +72,7 @@ def get_response(tag, intents_json):
     if tag =="buscar_informacion":
         query = intents_json.replace("búscame en google", "").strip()
         buscar_en_google(query)
-        return random.choice(["Claro! Iniciando la busqueda", "Buscando información... dame unos segundos."])
+        return random.choice(["Claro! Iniciando la", "Buscando información... dame unos segundos."])
     else:
         # Respuesta normal según los intents cargados
         return random.choice(tag["responses"])
