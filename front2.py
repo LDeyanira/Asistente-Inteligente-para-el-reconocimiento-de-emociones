@@ -6,7 +6,10 @@ import speech_recognition as sr
 from chat_base import predict_class, get_response, intents
 
 # Descarga el tokenizador de NLTK si no está disponible
-nltk.download('punkt', quiet=True)
+try:
+    nltk.download('punkt', quiet=True)
+except Exception as e:
+    st.error("Error al descargar 'punkt': {}".format(e))
 
 # Funciones
 def speak(text):
@@ -30,6 +33,14 @@ def listen():
         except sr.RequestError:
             st.error("Error al conectarse al servicio de reconocimiento de voz")
             return None
+
+# Función para tokenizar de forma segura
+def safe_word_tokenize(sentence):
+    try:
+        return nltk.word_tokenize(sentence)
+    except LookupError:
+        st.error("El recurso 'punkt' no está disponible. Por favor, verifica la instalación de NLTK.")
+        return []
 
 # Interfaz de Streamlit
 st.title("AI")
