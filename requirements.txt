@@ -9,4 +9,4 @@ tensorflow
 nltk
 gtts
 opencv-python
-pywhatkit
+speechrecognition
