@@ -4,7 +4,7 @@ import streamlit as st
 import json
 import pickle
 import numpy as np
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 import nltk
 from nltk.stem import WordNetLemmatizer
 import subprocess
