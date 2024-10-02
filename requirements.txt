@@ -1,6 +1,6 @@
 streamlit
 gtts
-pygame
+playsound
 streamlit==1.38.0
 numpy
 requests

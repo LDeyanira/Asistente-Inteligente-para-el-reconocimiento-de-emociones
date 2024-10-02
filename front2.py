@@ -1,6 +1,6 @@
 import streamlit as st
 from gtts import gTTS
-import pygame
+import playsound
 import os
 import tempfile
 from chat_base import predict_class, get_response, intents
@@ -9,28 +9,16 @@ import speech_recognition as sr
 def speak(text):
     temp_audio_file = None
     try:
-        # Crear archivo temporal
         temp_audio_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
         tts = gTTS(text=text, lang='es')
         tts.save(temp_audio_file.name)
-        temp_audio_file_path = temp_audio_file.name
-        temp_audio_file.close()
-
-        # Inicializar pygame mixer
-        pygame.mixer.init()
-        pygame.mixer.music.load(temp_audio_file_path)
-        pygame.mixer.music.play()
-
-        # Esperar a que termine de reproducir
-        while pygame.mixer.music.get_busy():
-            pygame.time.Clock().tick(10)
+        playsound(temp_audio_file.name)  # Reproduce el audio
     finally:
         if temp_audio_file:
             try:
-                os.unlink(temp_audio_file_path)
+                os.unlink(temp_audio_file.name)  # Elimina el archivo temporal
             except PermissionError:
-                pass  # Manejo de excepción si el archivo aún está en uso
-
+                pass
 def listen():
     r = sr.Recognizer()
     with sr.Microphone() as source:
