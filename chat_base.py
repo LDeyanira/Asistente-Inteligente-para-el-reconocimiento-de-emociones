@@ -8,7 +8,6 @@ from tensorflow.keras.models import load_model
 import nltk
 from nltk.stem import WordNetLemmatizer
 import subprocess
-import pywhatkit as kit
 lemmatizer = WordNetLemmatizer()
 
 # Importamos los archivos generados en el código anterior
@@ -56,8 +55,7 @@ def predict_class(sentence):
     max_index = np.where(res == np.max(res))[0][0]
     category = classes[max_index]
     return category
-def buscar_en_google(query):
-    kit.search(query)
+
 # Obtenemos una respuesta aleatoria
 def get_response(tag, intents_json):
     list_of_intents = intents_json['intents']
@@ -69,12 +67,5 @@ def get_response(tag, intents_json):
     
     if tag == "analisis":
         abrir_script()
-    if tag =="buscar_informacion":
-        query = intents_json.replace("búscame en google", "").strip()
-        buscar_en_google(query)
-        return random.choice(["Claro! Iniciando la", "Buscando información... dame unos segundos."])
-    else:
-        # Respuesta normal según los intents cargados
-        return random.choice(tag["responses"])
     
     return result
