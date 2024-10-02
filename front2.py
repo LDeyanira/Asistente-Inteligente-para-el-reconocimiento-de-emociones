@@ -1,24 +1,16 @@
 import streamlit as st
 from gtts import gTTS
-import playsound
 import os
 import tempfile
 from chat_base import predict_class, get_response, intents
 import speech_recognition as sr
 #funciones
 def speak(text):
-    temp_audio_file = None
-    try:
-        temp_audio_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
-        tts = gTTS(text=text, lang='es')
-        tts.save(temp_audio_file.name)
-        playsound(temp_audio_file.name)  # Reproduce el audio
-    finally:
-        if temp_audio_file:
-            try:
-                os.unlink(temp_audio_file.name)  # Elimina el archivo temporal
-            except PermissionError:
-                pass
+    tts = gTTS(text=text, lang='es')
+    audio_file = io.BytesIO()
+    tts.write_to_fp(audio_file)
+    audio_file.seek(0)
+    st.audio(audio_file, format='audio/mp3')
 def listen():
     r = sr.Recognizer()
     with sr.Microphone() as source:
