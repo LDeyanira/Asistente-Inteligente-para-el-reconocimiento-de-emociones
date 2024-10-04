@@ -7,7 +7,7 @@ import imutils
 #emotionName = 'Sorpresa'
 #emotionName = 'Tristeza'
 #emotionName= 'Estresado'
-emotionName="Neutro"
+#emotionName="Neutro"
 
 dataPath = 'Emocion'
 emotionsPath = dataPath + '/' + emotionName

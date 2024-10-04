@@ -51,9 +51,9 @@ def speak(text):
 def get_emotion_recommendation(emotion_label):
     recommendations = {
         'Felicidad': 'Me alegro mucho de que estés feliz, sigue disfrutando tu día.',
-        'Tristeza': 'Lamento que te sientas triste, recuerda que siempre puedes hablar con alguien.',
-        'Enojo': 'Respira hondo y relájate, es importante mantener la calma.',
-        'Sorpresa': '¡Vaya! Parece que algo inesperado ha sucedido.',
+        'Tristeza': 'Busca siempre el equilibrio entre tus responsabilidades y tu bienestar personal.',
+        'Enojo': 'Respira hondo y relájate, es importante mantener la calma. La ira puede provocar que hagas cosas de las que luego te arrepientas.',
+        'Sorpresa': 'Tomate un momento para analizar  lo inesperado antes de tu accionar',
         
     }
     return recommendations.get(emotion_label, "Ya que cuento con las cuatro emociones basicas, actualmente no puedo procesar tu emocion.")

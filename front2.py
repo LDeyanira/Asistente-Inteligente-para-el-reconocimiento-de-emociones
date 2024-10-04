@@ -1,51 +1,92 @@
 import streamlit as st
 from gtts import gTTS
-import io
+import pygame
+import os
 import tempfile
 from chat_base import predict_class, get_response, intents
+import speech_recognition as sr
 
-# Configuración de la página y logo en el titulo del chatbot
-st.set_page_config(
-    page_title="UPIIH BOT",
-    page_icon="https://cdn.icon-icons.com/icons2/3399/PNG/512/bot_icon_214984.png",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
-#funcion  para hablar 
 def speak(text):
-    tts = gTTS(text=text, lang='es')
-    audio_file = io.BytesIO()
-    tts.write_to_fp(audio_file)
-    audio_file.seek(0)
-    st.audio(audio_file, format='audio/mp3')
-# Lógica del chatbot
+    temp_audio_file = None
+    try:
+        # Crear archivo temporal
+        temp_audio_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
+        tts = gTTS(text=text, lang='es')
+        tts.save(temp_audio_file.name)
+        temp_audio_file_path = temp_audio_file.name
+        temp_audio_file.close()
+
+        # Inicializar pygame mixer
+        pygame.mixer.init()
+        pygame.mixer.music.load(temp_audio_file_path)
+        pygame.mixer.music.play()
+
+        # Esperar a que termine de reproducir
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
+    finally:
+        if temp_audio_file:
+            try:
+                os.unlink(temp_audio_file_path)
+            except PermissionError:
+                pass  # Manejo de excepción si el archivo aún está en uso
+
+def listen():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        audio = r.listen(source)
+        try:
+            text = r.recognize_google(audio, language="es-ES")
+            return text
+        except sr.UnknownValueError:
+            return "No entendí lo que dijiste"
+        except sr.RequestError:
+            return "Error al conectarse al servicio de reconocimiento de voz"
+
+# Interfaz de Streamlit
+st.title("Asistente emocional")
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 if "first_message" not in st.session_state:
     st.session_state.first_message = True
-if "user_avatar" not in st.session_state:
-    st.session_state.user_avatar = "https://cdn.icon-icons.com/icons2/3399/PNG/512/bot_icon_214984.png"  # URL de la imagen del usuario
 
+# Mostrar mensajes anteriores
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+    if message["role"] == "Bot":
+        with st.chat_message("Bot"):
+            st.markdown(message["content"])
+    else:
+        with st.chat_message("user"):
+            st.markdown(message["content"])
 
+# Primer mensaje del bot
 if st.session_state.first_message:
-    initial_message = "Hola,selecciona la planeación que necesites."
+    initial_message = "Te doy la bienvenida, estoy aqui para ayudarte."
     with st.chat_message("Bot"):
         st.markdown(initial_message)
     st.session_state.messages.append({"role": "Bot", "content": initial_message})
     st.session_state.first_message = False
     speak(initial_message)
 
-if prompt := st.chat_input("¿Cómo puedo ayudarte?"):
+# Colocamos el campo de entrada de texto y el botón de micrófono en la misma fila
+col1, col2 = st.columns([8, 1])
+with col1:
+    prompt = st.chat_input("Estoy para ti, ¿qué necesitas?")  # Cuadro de entrada de texto
+
+with col2:
+    if st.button("🎤"):  # Botón de micrófono
+        prompt = listen()  # Capturar texto por voz
+
+# Si hay un prompt (de texto o voz), procesarlo
+if prompt:
     with st.chat_message("user"):
         st.markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-    insts = predict_class(prompt)
-    res = get_response(insts, intents)
+    # Implementación del algoritmo de la IA
+    insts = predict_class(prompt)  # Predecir la clase de la entrada del usuario
+    res = get_response(insts, intents, prompt)  # Llamar a get_response con tres parámetros
 
     with st.chat_message("Bot"):
         st.markdown(res)
