@@ -14,7 +14,7 @@ if method == 'LBPH':
 emotion_recognizer.read('modelo' + method + '.xml')
 # --------------------------------------------------------------------------------
 
-dataPath = 'C:/Users/Deyanira LS/Desktop/Asistente-Inteligente-para-el-reconocimiento-de-emociones/Emocion'
+dataPath = 'C:/Users/avrup/Asistente-Inteligente-para-el-reconocimiento-de-emociones-1/Emocion'
 imagePaths = os.listdir(dataPath)
 print('imagePaths=', imagePaths)
 
@@ -84,14 +84,19 @@ while True:
         cv2.putText(frame, '{}'.format(emotion), (x, y-25), 2, 1.1, (0, 255, 0), 1, cv2.LINE_AA)
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-       # Mostrar la imagen de la emoción encima de la leyenda y centrada
-    if emotion in emotion_images:
-        emotion_img = cv2.resize(emotion_images[emotion], (150, 150))  # Tamaño fijo para la imagen
-        img_height, img_width, _ = emotion_img.shape
+        # Verificar si la emoción detectada es diferente de la última hablada
+        if emotion != last_spoken_emotion:
+            last_spoken_emotion = emotion  # Actualiza la última emoción hablada
+            recommendation = get_emotion_recommendation(emotion)
+            threading.Thread(target=speak, args=(recommendation,)).start()  # Lanza un hilo para hablar
+        # Mostrar la imagen de la emoción encima de la leyenda y centrada
+        if emotion in emotion_images:
+            emotion_img = cv2.resize(emotion_images[emotion], (120, 120))  # Tamaño fijo para la imagen
+            img_height, img_width, _ = emotion_img.shape
 
         # Calcular posición centrada de la imagen respecto a la cara detectada
         img_x = x + (w // 2) - (img_width // 2)  # Centrar en X
-        img_y = y - img_height - 50  # Colocar encima de la leyenda (ajustar -35 si es necesario)
+        img_y = y - img_height - 5  # Colocar encima de la leyenda (ajustar -35 si es necesario)
 
         # Verificar si la imagen se sale del frame superior
         if img_y < 0:
@@ -100,11 +105,6 @@ while True:
         # Mostrar la imagen en el frame
         frame[img_y:img_y + img_height, img_x:img_x + img_width] = emotion_img
 
-        # Verificar si la emoción detectada es diferente de la última hablada
-        if emotion != last_spoken_emotion:
-            last_spoken_emotion = emotion  # Actualiza la última emoción hablada
-            recommendation = get_emotion_recommendation(emotion)
-            threading.Thread(target=speak, args=(recommendation,)).start()  # Lanza un hilo para hablar
 
     cv2.imshow('Ejecutando Análisis', frame)
     k = cv2.waitKey(1)

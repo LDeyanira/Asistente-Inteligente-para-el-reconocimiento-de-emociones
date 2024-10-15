@@ -13,11 +13,12 @@ if method == 'LBPH':
 
 emotion_recognizer.read('modelo' + method + '.xml')
 # --------------------------------------------------------------------------------
-
-dataPath = 'C:/Users/Deyanira LS/Documents/Asistant/MetodoEigenFaces_EmotionDetector/Emocion'
+dataPath ='C:/Users/avrup/Asistente-Inteligente-para-el-reconocimiento-de-emociones-1/Emocion'
 imagePaths = os.listdir(dataPath)
 print('imagePaths=', imagePaths)
 
+#url = "http://192.168.137.5/video"  # Reemplaza con la URL de tu cámara IP
+#cap = cv2.VideoCapture("http://192.168.137.5")
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 faceClassif = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
@@ -84,10 +85,26 @@ while True:
             last_spoken_emotion = emotion  # Actualiza la última emoción hablada
             recommendation = get_emotion_recommendation(emotion)
             threading.Thread(target=speak, args=(recommendation,)).start()  # Lanza un hilo para hablar
+         #Mostrar la imagen de la emoción encima de la leyenda y centrada
+        if emotion in emotion_images:
+            emotion_img = cv2.resize(emotion_images[emotion], (120, 120))  # Tamaño fijo para la imagen
+            img_height, img_width, _ = emotion_img.shape
 
+        # Calcular posición centrada de la imagen respecto a la cara detectada
+        img_x = x + (w // 2) - (img_width // 2)  # Centrar en X
+        img_y = y - img_height - 10  # Colocar encima de la leyenda (ajustar -35 si es necesario)
+
+        # Verificar si la imagen se sale del frame superior
+        if img_y < 0:
+            img_y = 0
+
+        # Mostrar la imagen en el frame
+        frame[img_y:img_y + img_height, img_x:img_x + img_width] = emotion_img
+           
     cv2.imshow('Ejecutando Analisis', frame)
     k = cv2.waitKey(1)
     if k == 27:  # Presiona ESC para salir
+       
         break
 
 cap.release()

@@ -5,13 +5,11 @@ import json
 import pickle
 import numpy as np
 from keras.models import load_model
-import nltk
 from nltk.stem import WordNetLemmatizer
 import subprocess
-import pywhatkit as kit  # Importar pywhatkit
-
+import nltk
+#mport pywhatkit as kit  # Importar pywhatkit
 lemmatizer = WordNetLemmatizer()
-
 # Importamos los archivos generados en el código anterior
 intents = json.loads(open('intents.json').read())
 words = pickle.load(open('words.pkl', 'rb'))
@@ -29,7 +27,7 @@ def buscar_en_wikipedia(query):
 
 # Abrir otro proceso de Python
 def abrir_script():
-    script_path = "C:/Users/Deyanira LS/Desktop/Asistente-Inteligente-para-el-reconocimiento-de-emociones/reconocimientoEmociones.py"
+    script_path = "C:/Users/avrup/Asistente-Inteligente-para-el-reconocimiento-de-emociones-1/emotionRecognition.py"
     try:
         result = subprocess.run(
             ["python", script_path],
@@ -78,14 +76,15 @@ def get_response(tag, intents_json, last_user_query=None):
     
     if tag == "analisis":
         abrir_script()
+         
      # Si el tag es "buscar_informacion", procesamos la búsqueda
-    if tag == "buscar_informacion":
-        if last_user_query:
+    #if tag == "buscar_informacion":
+        #if last_user_query:
             # Ejecutar búsqueda en Wikipedia si ya tenemos la consulta del usuario
-            respuesta_wikipedia = buscar_en_wikipedia(last_user_query)
-            result = respuesta_wikipedia
-        else:
+           # respuesta_wikipedia = buscar_en_wikipedia(last_user_query)
+            #result = respuesta_wikipedia
+        #else:
             # Si no hay una consulta, pedimos al usuario que nos diga sobre qué quiere buscar
-            result = "¿Qué tema te gustaría buscar?"
-    
+            #result = "¿Qué tema te gustaría buscar?"
+        
     return result
