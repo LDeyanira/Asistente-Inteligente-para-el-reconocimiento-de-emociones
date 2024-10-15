@@ -18,7 +18,7 @@ def obtenerModelo(method,facesData,labels):
 	# Almacenando el modelo obtenido
 	emotion_recognizer.write("modelo"+method+".xml")
 
-dataPath = 'C:/Users/Deyanira LS/Documents/Asistant/MetodoEigenFaces_EmotionDetector/Emocion' #Cambia a la ruta donde hayas almacenado Data
+dataPath = 'C:/Users/avrup/Music/Asistente-Inteligente-para-el-reconocimiento-de-emociones/Emocion' #Cambia a la ruta donde hayas almacenado Data
 emotionsList = os.listdir(dataPath)
 print('Lista de emociones: ', emotionsList)
 

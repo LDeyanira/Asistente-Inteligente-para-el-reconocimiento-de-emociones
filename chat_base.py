@@ -72,7 +72,7 @@ def get_response(tag, intents_json, last_user_query=None):
     for i in list_of_intents:
         if i["tag"] == tag:
             result = random.choice(i['responses'])
-            break
+            
     
     if tag == "analisis":
         abrir_script()

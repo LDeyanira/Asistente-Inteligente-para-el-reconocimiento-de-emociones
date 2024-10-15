@@ -91,12 +91,12 @@ while True:
             threading.Thread(target=speak, args=(recommendation,)).start()  # Lanza un hilo para hablar
         # Mostrar la imagen de la emoción encima de la leyenda y centrada
         if emotion in emotion_images:
-            emotion_img = cv2.resize(emotion_images[emotion], (120, 120))  # Tamaño fijo para la imagen
+            emotion_img = cv2.resize(emotion_images[emotion], (100, 100))  # Tamaño fijo para la imagen
             img_height, img_width, _ = emotion_img.shape
 
         # Calcular posición centrada de la imagen respecto a la cara detectada
         img_x = x + (w // 2) - (img_width // 2)  # Centrar en X
-        img_y = y - img_height - 5  # Colocar encima de la leyenda (ajustar -35 si es necesario)
+        img_y = y - img_height - 35  # Colocar encima de la leyenda (ajustar -35 si es necesario)
 
         # Verificar si la imagen se sale del frame superior
         if img_y < 0:
