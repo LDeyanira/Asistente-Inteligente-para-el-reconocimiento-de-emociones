@@ -9,7 +9,7 @@ import imutils
 #emotionName= 'Estresado'
 #emotionName="Neutro"
 
-dataPath = 'Emocion'
+dataPath = 'QuiqueEmocion'
 emotionsPath = dataPath + '/' + emotionName
 
 if not os.path.exists(emotionsPath):
